@@ -21,6 +21,7 @@ const LoginForm = () => {
         setLoading(true)
 
         try {
+            /* await firebase.auth().createUserWithEmailAndPassword(`${email}`, `${password}`); */
             await firebase.auth().signInWithEmailAndPassword(`${email}`, `${password}`);
             setLoading(false)
             await router.push('/');
