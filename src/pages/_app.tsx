@@ -1,6 +1,7 @@
 import Head from "next/head";
 import {AppProps} from "next/app";
 import {AuthProvider} from "../utils/context/auth.context";
+import '../styles/globals.scss'
 
 
 const TwoFactorAuth = ({ Component, pageProps }: AppProps) => {

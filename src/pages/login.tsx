@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 import Link from 'next/link'
 import { useEffect } from 'react';
-const LoginForm = dynamic(() => import('../components/LoginForm'), );
+const Login = dynamic(() => import('../components/Login'), );
 
 
 const LoginPage = () => {
@@ -13,11 +13,10 @@ const LoginPage = () => {
     }, [])
 
     return (
-      <div className="flex relative font-dm">
+      <div className="font-sans antialiased text-gray-900 h-screen leading-normal tracking-wider bg-cover" style={{backgroundImage:"url('https://source.unsplash.com/1L71sPT5XKc')"}}>
         <div className="h-72 flex w-full justify-center px-4 sm:px-6 lg:px-8">
-          <div className="max-w-full w-2/12 mx-auto flex flex-col content-center h-full flex pt-32">
-            <div className="pt-6 pb-20"></div>
-            <LoginForm/>
+          <div className="max-w-full w-3/12 mx-auto flex flex-col content-center h-full flex pt-32">
+            <Login/>
           </div>
         </div>
       </div>

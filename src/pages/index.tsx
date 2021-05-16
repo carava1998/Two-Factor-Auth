@@ -21,11 +21,9 @@ const Dashboard = () =>{
 
   return(
     <div>
-      <p>Hola</p>
+      <p className="bg-gray-600">Hola</p>
       <button onClick={logOut}>LogOut </button>
     </div>
-
-
   )
 }
 

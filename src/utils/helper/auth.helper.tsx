@@ -1,7 +1,5 @@
-import axios from 'axios';
 import { parseCookies } from 'nookies';
 import { GetServerSideProps } from 'next';
-import firebase from 'firebase';
 
 
 export const validateAuthCookie: GetServerSideProps = async (ctx) => {

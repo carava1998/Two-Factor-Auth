@@ -9,13 +9,33 @@ initFirebase();
 
 const AuthContext = createContext<{
     user: any;
-}>({ user: null });
+    email:string;
+    setEmail:null|((ml:string)=>any);
+    password:string;
+    setPassword:null|((ml:string)=>any);
+    setNumber:null|((ml:string)=>any);
+    toggleGetCode:null|((ml:boolean)=>any);
+    code:string;
+}>({ user: null, email:"",setEmail:null,password:"",setPassword:null,setNumber:null,toggleGetCode:null,code:"" });
 
 export const AuthProvider = ({ children }: PropsWithChildren<{}>) => {
 
     const auth = firebase.auth();
-    const [user,setUser] = useState<any>()
+    const [user,setUser] = useState<any>();
+    const [password,setPassword] = useState<string>("");
+    const [email,setEmail] = useState<string>("");
+    const [number,setNumber] = useState<string>("0");
+    const [getCode, toggleGetCode] = useState<boolean>(false)
+    const [code,setCode] = useState<string>("")
 
+    useEffect(()=>{
+        const code = generateCode()
+        setCode(code);
+        nookies.destroy(null, '__number');
+        nookies.set(null, '__number', number, {});
+        nookies.destroy(null, '__code');
+        nookies.set(null, '__code', code, {});
+    },[getCode])
 
     useEffect(() => {
         if (typeof window !== undefined) {
@@ -53,8 +73,12 @@ export const AuthProvider = ({ children }: PropsWithChildren<{}>) => {
         return clearInterval(handle);
     }, []);
 
+    const generateCode = () => {
+        return (`${12345678}`)
+    }
+
     return (
-        <AuthContext.Provider value={{ user }}>
+        <AuthContext.Provider value={{ user,email,setEmail,password,setPassword,setNumber,toggleGetCode,code}}>
             { children }
         </AuthContext.Provider>
     )
