@@ -10,24 +10,36 @@ export const getServerSideProps: GetServerSideProps = ctx => sendMessageCode(ctx
 
 const ConfirmCode = () =>{
   const router = useRouter()
-  const { code,email,password } = useAuth()
+  const { code,email,password, isRegister } = useAuth()
   const [number,setNumber] = useState<string>("0")
 
+  const registerUser = async () =>{
+    try {
+      await firebase.auth().createUserWithEmailAndPassword(`${email}`, `${password}`);
+      await router.push('/');
+    } catch (err) {
+        await router.push('/');
+        console.error(err);
+    }
+  }
 
   const logInSubmit = async () => {
     try {
         await firebase.auth().signInWithEmailAndPassword(`${email}`, `${password}`);
         await router.push('/');
     } catch (err) {
+        await router.push('/');
         console.error(err);
     }
 };
 
   const validateCode = async () =>{
-    if(number === code){
+    if(number === code && !isRegister){
       logInSubmit()
     }
-    else{
+    else if (number === code && isRegister){
+      registerUser()
+    }else{
       await router.push("/login")
     }
   }
@@ -41,7 +53,7 @@ const ConfirmCode = () =>{
           >
             <div className="grid justify-items-center">
                 <div className="text-3xl font-bold pt-8">Two Factor Auth</div>
-                <div className="text-xl pt-4">Sign In</div>
+                <div className="text-xl pt-4">{isRegister? "Registrar" : "Sign In"}</div>
             </div>
             <div className="pt-6 pb-12">
               <label>
@@ -59,7 +71,7 @@ const ConfirmCode = () =>{
                 <button
                     onClick={validateCode}
                     type="submit"
-                    className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-dm rounded-md text-white bg-indigo-700 hover:bg-indigo-400 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-900 transition duration-150 ease-in-out"
+                    className="group relative w-full flex justify-center py-2 mb-4 px-4 border border-transparent text-sm leading-5 font-dm rounded-md text-white bg-yellow-700 hover:bg-yellow-600  transition duration-150 ease-in-out"
                     title="Ingresar a Two FActor Auth"
                 >
                     Confirmar

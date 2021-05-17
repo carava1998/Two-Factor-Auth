@@ -38,8 +38,8 @@ const PhoneNumberPicker = ({back,current,setNumber}:PhoneNumberProps) =>{
           <button
               onClick={()=>{back(true);current(false)}}
               type="submit"
-              className="group relative w-5/12 flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-dm rounded-md text-white bg-indigo-700 hover:bg-indigo-400 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-900 transition duration-150 ease-in-out"
-              title="Ingresar a Leadsales"
+              className="group relative w-2/5 flex justify-center py-2 mb-4 px-4 border border-transparent text-sm leading-5 font-dm rounded-md text-white bg-yellow-700 hover:bg-yellow-600  transition duration-150 ease-in-out"
+              title="Ingresar a TwoFActorAuth"
           >
               Atras
               <svg xmlns="http://www.w3.org/2000/svg" className=" ml-2 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -49,8 +49,8 @@ const PhoneNumberPicker = ({back,current,setNumber}:PhoneNumberProps) =>{
           <button
               onClick={getCode}
               type="submit"
-              className="group relative w-5/12 flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-dm rounded-md text-white bg-indigo-700 hover:bg-indigo-400 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-900 transition duration-150 ease-in-out"
-              title="Ingresar a Leadsales"
+              className="group relative w-2/5 flex justify-center py-2 mb-4 px-4 border border-transparent text-sm leading-5 font-dm rounded-md text-white bg-yellow-700 hover:bg-yellow-600  transition duration-150 ease-in-out"
+              title="Ingresar a TwoFActorAuth"
           >
               Siguiente
               <svg xmlns="http://www.w3.org/2000/svg" className="ml-2 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">

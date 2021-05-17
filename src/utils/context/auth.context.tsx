@@ -16,7 +16,9 @@ const AuthContext = createContext<{
     setNumber:null|((ml:string)=>any);
     toggleGetCode:null|((ml:boolean)=>any);
     code:string;
-}>({ user: null, email:"",setEmail:null,password:"",setPassword:null,setNumber:null,toggleGetCode:null,code:"" });
+    isRegister:boolean;
+    setIsRegister:null|((ml:boolean)=>any);
+}>({ user: null, email:"",setEmail:null,password:"",setPassword:null,setNumber:null,toggleGetCode:null,code:"",isRegister:false,setIsRegister:null });
 
 export const AuthProvider = ({ children }: PropsWithChildren<{}>) => {
 
@@ -27,6 +29,7 @@ export const AuthProvider = ({ children }: PropsWithChildren<{}>) => {
     const [number,setNumber] = useState<string>("0");
     const [getCode, toggleGetCode] = useState<boolean>(false)
     const [code,setCode] = useState<string>("")
+    const [isRegister, setIsRegister] = useState<boolean>(false);
 
     useEffect(()=>{
         if(getCode){
@@ -131,7 +134,7 @@ export const AuthProvider = ({ children }: PropsWithChildren<{}>) => {
     }
 
     return (
-        <AuthContext.Provider value={{ user,email,setEmail,password,setPassword,setNumber,toggleGetCode,code}}>
+        <AuthContext.Provider value={{ user,email,setEmail,password,setPassword,setNumber,toggleGetCode,code,isRegister,setIsRegister}}>
             { children }
         </AuthContext.Provider>
     )
