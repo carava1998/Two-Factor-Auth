@@ -29,12 +29,16 @@ export const AuthProvider = ({ children }: PropsWithChildren<{}>) => {
     const [code,setCode] = useState<string>("")
 
     useEffect(()=>{
-        const code = generateCode()
-        setCode(code);
-        nookies.destroy(null, '__number');
-        nookies.set(null, '__number', number, {});
-        nookies.destroy(null, '__code');
-        nookies.set(null, '__code', code, {});
+        if(getCode){
+            const code = generateCode(3)
+            console.log(code)
+            setCode(code);
+            nookies.destroy(null, '__number');
+            nookies.set(null, '__number', number, {});
+            nookies.destroy(null, '__code');
+            nookies.set(null, '__code', code, {});
+            toggleGetCode(false);
+        }
     },[getCode])
 
     useEffect(() => {
@@ -73,8 +77,57 @@ export const AuthProvider = ({ children }: PropsWithChildren<{}>) => {
         return clearInterval(handle);
     }, []);
 
-    const generateCode = () => {
-        return (`${12345678}`)
+    const alternatePieces = (p1:string,p2:string) => {
+        var result = "";
+        var length1 = p1.length;
+        var length2 = p2.length;
+        var limit = Math.min(length1,length2);
+        if(limit == length1) {
+            for(let i=0 ; i<limit ; i+=1){
+                result += p2.charAt(i);
+                result += p1.charAt(i);
+            }
+            result += p2.substring(limit);
+        }
+        else {
+            for(let i=0 ; i<limit ; i+=1){
+                result += p1.charAt(i);
+                result += p2.charAt(i);
+            }
+            result += p1.substring(limit);
+        }
+        return result;
+    }
+
+    const generateHash = (text:string)=>{
+        var hash = 0;
+        if(text.length == 0)
+            return "0";
+        else {
+            for(let i=0 ; i<text.length ; i+=1){
+                var ASCII = text.charCodeAt(i);
+                hash = ((hash << 7) - hash) + ASCII;
+                hash &= hash;
+            }
+        }
+        return Math.abs(hash).toString();
+    }
+
+    const generateRandomString = (num:number) => {
+        var chars = "ABCDEFGHIJKLMNOPQRSTUVWXZabcdefghijklmnopqrstuvwxyz0123456789";
+        var result = "";
+        for(let i=0 ; i<num ; i+=1) result += chars.charAt(Math.floor(Math.random()*62));
+        return result;
+    }
+
+    const generateCode = (num:number) => {
+        let rand:string = "";
+        let hash:string = "";
+        let SMSCode:string = "";
+        rand = generateRandomString(num);
+        hash = generateHash(rand);
+        SMSCode = alternatePieces(rand,hash);
+        return SMSCode;
     }
 
     return (

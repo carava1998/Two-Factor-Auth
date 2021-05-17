@@ -1,7 +1,4 @@
 import {FormEvent, useEffect, useState} from "react";
-
-import {useRouter} from "next/router";
-import firebase from "firebase/app";
 import 'firebase/auth';
 import 'firebase/functions';
 import PhoneNumberPicker from "../PhoneNumberPicker";
@@ -10,12 +7,10 @@ import { useAuth } from "../../utils/context/auth.context";
 const Login = () => {
 
     const {email, setEmail,password,setPassword,setNumber} = useAuth();
-    const router = useRouter();
     const [hide, setHide] = useState<boolean>(true);
     const [remember, serRemember] = useState<boolean>(true)
     const [showLogIn, toggleShowLogIn] = useState<boolean>(true)
     const [showNumberPicker, toggleNumberPicker] = useState<boolean>(false)
-    const [showConfirmCode,toggleConfirmCode] = useState<boolean>(false);
 
     const renderLogIn = () =>{
         return(

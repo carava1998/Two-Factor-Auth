@@ -60,7 +60,7 @@ const ConfirmCode = () =>{
                     onClick={validateCode}
                     type="submit"
                     className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-dm rounded-md text-white bg-indigo-700 hover:bg-indigo-400 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-900 transition duration-150 ease-in-out"
-                    title="Ingresar a Leadsales"
+                    title="Ingresar a Two FActor Auth"
                 >
                     Confirmar
                 </button>
@@ -68,7 +68,7 @@ const ConfirmCode = () =>{
                     onClick={async ()=>{await router.push("/login")}}
                     type="submit"
                     className="group relative w-full mt-8 flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-dm rounded-md text-white bg-gray-700 hover:bg-gray-400 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-900 transition duration-150 ease-in-out"
-                    title="Ingresar a Leadsales"
+                    title="Ingresar a Two FActor Auth"
                 >
                     Cancelar
                 </button>
