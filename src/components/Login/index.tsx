@@ -8,13 +8,42 @@ import { useRouter } from "next/router";
 const Login = () => {
 
     const {email, setEmail,password,setPassword,setNumber, isRegister} = useAuth();
-    const [hide, setHide] = useState<boolean>(true);
-    const [remember, serRemember] = useState<boolean>(true)
-    const [showLogIn, toggleShowLogIn] = useState<boolean>(true)
-    const [showNumberPicker, toggleNumberPicker] = useState<boolean>(false)
+    const [showLogIn, toggleShowLogIn] = useState<boolean>(true);
+    const [confirmPsswd, setConfirmPsswd] = useState<string>();
+    const [showNumberPicker, toggleNumberPicker] = useState<boolean>(false);
+    const [errorMsg, setErrorMsg] = useState<string>();
+    const [showError, toggleError] = useState<boolean>(false);
 
     const renderLogIn = () =>{
         const router = useRouter()
+
+        const pswdRules = (pswd:string) => {
+            if(!pswd || pswd === undefined || pswd === ""){
+                setErrorMsg("La contraseña no puede estar vacia")
+                return true
+            }
+            if(pswd !== confirmPsswd){
+                setErrorMsg("Las contraseñas no coinciden")
+                setPassword?setPassword(""):"";
+                setConfirmPsswd("")
+                return true
+            }
+            if(pswd.length < 8 || !/\d/.test(pswd) || !/[A-Z]/.test(pswd)){
+                setErrorMsg("Las contraseñas deben de tener al menos 8 caracteres, al menos un número y una mayúscula")
+                return true
+            }
+            return false;
+        }
+
+        const confirmUserData = () => {
+            toggleError(false)
+            if(isRegister &&  pswdRules(password)){
+                toggleError(true)
+                return
+            }
+            toggleShowLogIn(false);
+            toggleNumberPicker(true);
+        }
 
         return(
             <div className="pb-12">
@@ -28,9 +57,7 @@ const Login = () => {
                     placeholder="Ingresa email"
                     value={email?email:""}
                     onChange={(event)=>{setEmail?setEmail(event.target.value):()=>{}}}
-                    required
                 />
-
                 <label>
                     Contraseña
                     <div className=" flex flex-row relative items-center">
@@ -39,33 +66,47 @@ const Login = () => {
                             name="Password"
                             placeholder="Ingresa contraseña"
                             onChange={(event)=>{setPassword? setPassword(event.target.value):()=>{}}}
-                            type={ hide ? 'password' : 'text' }
+                            type='password'
                             value={password?password:""}
-                            required
                         />
-
                     </div>
                 </label>
+                {isRegister &&
+                    <label>
+                        Confirmar contraseña
+                        <div className=" flex flex-row relative items-center">
+                            <input
+                                className={" appearance-none rounded-md relative block w-full px-3 py-2  mt-2 mb-2 border border-gray-300 text-gray-900 rounded-t-md outline-none"}
+                                name="Password"
+                                placeholder="Ingresa contraseña"
+                                onChange={(event)=>{setConfirmPsswd? setConfirmPsswd(event.target.value):()=>{}}}
+                                type='password'
+                                value={confirmPsswd?confirmPsswd:""}
+                            />
+                        </div>
+                    </label>
+                }
+                {showError && <p className="text-red-500">{errorMsg}</p>}
                 <div className="mt-6">
                     {!isRegister && <button
                         onClick={()=>{router.push('/register')}}
                         type="submit"
                         className="group relative w-full flex justify-center py-2 mb-4 px-4 border border-transparent text-sm leading-5 font-dm rounded-md text-white bg-yellow-700 hover:bg-yellow-600  transition duration-150 ease-in-out"
-                        title="Registarse"
+                        title="Go to register"
                     >
-                        Registrarse
+                        Ir a registrarse
                     </button>}
                     {isRegister && <button
                         onClick={()=>{router.push('/login')}}
                         type="submit"
                         className="group relative w-full flex justify-center py-2 mb-4 px-4 border border-transparent text-sm leading-5 font-dm rounded-md text-white bg-yellow-700 hover:bg-yellow-600  transition duration-150 ease-in-out"
-                        title="Registarse"
+                        title="Go to Log in"
                     >
-                        Log In
+                        Ir a Log In
                     </button>}
 
                     <button
-                        onClick={()=>{toggleShowLogIn(false);toggleNumberPicker(true)}}
+                        onClick={confirmUserData}
                         type="submit"
                         className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-dm rounded-md text-white bg-yellow-700 hover:bg-yellow-600 transition duration-150 ease-in-out"
                         title="Ingresar a Leadsales"
